@@ -1,9 +1,15 @@
 import React from 'react';
 import './menu-item.styles.scss';
+// Using withRouter for routing
+import { withRouter } from 'react-router-dom';
 
-const MenuItem = ({ title, imageUrl, size }) => (
+// Using withRouter we will have access to history
+const MenuItem = ({ title, imageUrl, size, history, linkUrl, match }) => (
   // Using the style tag to add css for the image
-  <section className={`${size} menu-item`}>
+  <section
+    role='link'
+    className={`${size} menu-item`}
+    onClick={() => history.push(`${match.url}${linkUrl}`)}>
     <div className='background-image' style={{
       backgroundImage: `url(${imageUrl})`
     }}>
@@ -15,4 +21,6 @@ const MenuItem = ({ title, imageUrl, size }) => (
   </section>
 );
 
-export default MenuItem;
+// Using withRouter we are passing a Higher-Order component, a component that will use
+// a function to get it mutated
+export default withRouter(MenuItem);
