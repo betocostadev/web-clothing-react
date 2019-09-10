@@ -1,11 +1,14 @@
 /* VARIABLES */
 :root {
-  --red: #ff6f69;
-  --mydarkgray: #333;
+  --baseFont: 'Open Sans Condensed', sans-serif;
 }
 
 html {
   box-sizing: border-box;
+}
+
+body {
+  font-family: var(--baseFont);
 }
 
 *,
