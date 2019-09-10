@@ -1,0 +1,15 @@
+/* VARIABLES */
+:root {
+  --red: #ff6f69;
+  --mydarkgray: #333;
+}
+
+html {
+  box-sizing: border-box;
+}
+
+*,
+*:before,
+*:after {
+box-sizing: inherit;
+}
