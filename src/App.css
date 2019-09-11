@@ -9,6 +9,7 @@ html {
 
 body {
   font-family: var(--baseFont);
+  padding: 20px 60px;
 }
 
 *,
