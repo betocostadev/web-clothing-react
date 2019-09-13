@@ -3,6 +3,8 @@ import React from 'react';
 import FormInput from '../form-input/form-input.component'
 import CustomButton from '../custom-button/custom-button.component';
 
+import { signInWithGoogle } from '../../firebase/firebase.utils';
+
 import './sign-in.styles.scss';
 
 // In this case, using a class because we will have to store what the user is typing.
@@ -25,7 +27,6 @@ class SignIn extends React.Component {
 
   handleChange = e => {
     const {value, name} = e.target;
-    console.log(value, name);
     this.setState({ [name]: value});
   }
 
@@ -54,7 +55,10 @@ class SignIn extends React.Component {
             required
           />
 
-          <CustomButton type="submit"> SIGN IN </CustomButton>
+          <div className='buttons'>
+            <CustomButton type="submit"> SIGN IN </CustomButton>
+            <CustomButton onClick={signInWithGoogle} isGoogleSignIn> SIGN IN WITH GOOGLE </CustomButton>
+          </div>
         </form>
       </section>
     )
