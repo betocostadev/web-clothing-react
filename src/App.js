@@ -8,7 +8,7 @@ import SignInSignUp from './pages/signin-signup/signin-signup.component';
 import Header from './components/header/header.component';
 // Use auth to setstate and be able to pass the 'logged' state to the components that need it
 // That's why we will convert the app to a class component
-import { auth } from './firebase/firebase.utils';
+import { auth, createUserProfileDocument } from './firebase/firebase.utils';
 
 // Notice that the Header component is placed outside of the Switch.
 // This makes the Header component to be rendered before the Route decides the destination
@@ -25,10 +25,24 @@ class App extends React.Component {
   unsubscribeFromAuth = null;
 
   // We need to get the info when the user logs in/out
+  // We will create the user on the DB and also setState, to make sure React is aware
   componentDidMount() {
-    this.unsubscribeFromAuth = auth.onAuthStateChanged(user => {
-      this.setState({ currentUser: user })
-      console.log(user)
+    this.unsubscribeFromAuth = auth.onAuthStateChanged(async userAuth => {
+      // this.setState({ currentUser: user });
+      if (userAuth) {
+        const userRef = await createUserProfileDocument(userAuth);
+        userRef.onSnapshot(snapShot => {
+          // console.log(snapShot.data());
+          this.setState({
+            currentUser: {
+              id: snapShot.id,
+              ...snapShot.data()
+            }
+          }, () => console.log(this.state))
+        });
+      } else {
+        this.setState({ currentUser: userAuth });
+      }
     })
   }
 
