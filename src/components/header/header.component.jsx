@@ -1,10 +1,12 @@
 import React from 'react';
 // Using to Link from React-Router to link the logo to the home
 import { Link } from 'react-router-dom';
-// We will use a special syntax in React for importing SVGs
-import { ReactComponent as Logo } from '../../assets/icons/crown.svg'
+// Using Connect for Redux, to send the user state
+import { connect } from 'react-redux';
 // Import the Auth (keep the state of the user login)
 import { auth } from '../../firebase/firebase.utils';
+// We will use a special syntax in React for importing SVGs:
+import { ReactComponent as Logo } from '../../assets/icons/crown.svg'
 
 import './header.styles.scss';
 // The Link will be converted to an 'a' element when rendered, style it in the app styles.
@@ -34,4 +36,10 @@ const Header = ({ currentUser }) => (
   </header>
 )
 
-export default Header;
+// must use this name as it is a redux codebase
+const mapStateToProps = state => ({
+  currentUser: state.user.currentUser
+})
+
+// Needs the function that allows us to access the state and the component
+export default connect(mapStateToProps)(Header);

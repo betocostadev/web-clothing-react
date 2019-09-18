@@ -1,5 +1,6 @@
 import React from 'react';
 import { Switch, Route } from 'react-router-dom';
+import { connect } from 'react-redux';
 // import logo from './logo.svg';
 import './App.css';
 import HomePage from './pages/homepage/homepage.component';
@@ -10,16 +11,19 @@ import Header from './components/header/header.component';
 // That's why we will convert the app to a class component
 import { auth, createUserProfileDocument } from './firebase/firebase.utils';
 
+import { setCurrentUser } from './redux/user/user.actions';
+
 // Notice that the Header component is placed outside of the Switch.
 // This makes the Header component to be rendered before the Route decides the destination
 class App extends React.Component {
-  constructor() {
+  // No need of the constructor since we are controlling the state using setCurrentUser
+  /* constructor() {
     super();
 
     this.state = {
       currentUser: null
     }
-  }
+  } */
 
   // Close the subscription after the user have subscribed
   unsubscribeFromAuth = null;
@@ -27,22 +31,22 @@ class App extends React.Component {
   // We need to get the info when the user logs in/out
   // We will create the user on the DB and also setState, to make sure React is aware
   componentDidMount() {
+    const {setCurrentUser} = this.props;
+
     this.unsubscribeFromAuth = auth.onAuthStateChanged(async userAuth => {
       // this.setState({ currentUser: user });
       if (userAuth) {
         const userRef = await createUserProfileDocument(userAuth);
         userRef.onSnapshot(snapShot => {
           // console.log(snapShot.data());
-          this.setState({
-            currentUser: {
+          setCurrentUser({
               id: snapShot.id,
               ...snapShot.data()
-            }
           });
         // ), () => console.log(this.state))
         });
       } else {
-        this.setState({ currentUser: userAuth });
+        setCurrentUser(userAuth);
       }
     })
   }
@@ -54,7 +58,7 @@ class App extends React.Component {
   render() {
     return (
       <div>
-      <Header currentUser={this.state.currentUser}/>
+      <Header />
       <Switch>
       <Route exact path='/' component={HomePage} />
       <Route path='/shop' component={ShopPage} />
@@ -65,4 +69,8 @@ class App extends React.Component {
   }
 }
 
-export default App;
+const mapDispatchToProps = dispatch => ({
+  setCurrentUser: user => dispatch(setCurrentUser(user))
+});
+
+export default connect(null, mapDispatchToProps)(App);
