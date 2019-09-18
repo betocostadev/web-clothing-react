@@ -1,5 +1,5 @@
 import React from 'react';
-import { Switch, Route } from 'react-router-dom';
+import { Switch, Route, Redirect } from 'react-router-dom';
 import { connect } from 'react-redux';
 // import logo from './logo.svg';
 import './App.css';
@@ -62,15 +62,29 @@ class App extends React.Component {
       <Switch>
       <Route exact path='/' component={HomePage} />
       <Route path='/shop' component={ShopPage} />
-      <Route path='/signin' component={SignInSignUp} />
+      <Route exact
+        path='/signin'
+        render={() => this.props.currentUser ?
+          (<Redirect to='/' />)
+          : (<SignInSignUp />) }
+      />
       </Switch>
       </div>
     )
   }
 }
 
+// Check if the user is signed in, if it is, forbid the login page.
+const mapStateToProps = ({ user }) => ({
+  currentUser: user.currentUser
+})
+
+// Dispatch current User
 const mapDispatchToProps = dispatch => ({
   setCurrentUser: user => dispatch(setCurrentUser(user))
 });
 
-export default connect(null, mapDispatchToProps)(App);
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(App);

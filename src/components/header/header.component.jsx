@@ -5,12 +5,14 @@ import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 // Import the Auth (keep the state of the user login)
 import { auth } from '../../firebase/firebase.utils';
+import CartIcon from '../cart-icon/cart-icon.component';
+import CartDropdown from '../cart-dropdown/cart-dropdown.component';
 // We will use a special syntax in React for importing SVGs:
 import { ReactComponent as Logo } from '../../assets/icons/crown.svg'
 
 import './header.styles.scss';
 // The Link will be converted to an 'a' element when rendered, style it in the app styles.
-const Header = ({ currentUser }) => (
+const Header = ({ currentUser, hidden }) => (
   <header className='header'>
     <Link className='logo-container' to='/'>
       <Logo className='logo' />
@@ -32,13 +34,16 @@ const Header = ({ currentUser }) => (
           SIGN IN
         </Link>
       }
+      <CartIcon />
     </div>
+    { hidden ? null : <CartDropdown /> }
   </header>
 )
 
 // must use this name as it is a redux codebase
-const mapStateToProps = state => ({
-  currentUser: state.user.currentUser
+const mapStateToProps = ({user: { currentUser }, cart: { hidden }}) => ({
+  currentUser,
+  hidden
 })
 
 // Needs the function that allows us to access the state and the component
