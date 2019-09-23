@@ -1,10 +1,14 @@
 import { createStore, applyMiddleware} from 'redux';
+// Using redux-persist for data persistance
+import { persistStore } from 'redux-persist';
 // In this case, we will use the redux logger middleware to keep track of logs across states
 import logger from 'redux-logger';
 import rootReducer from './root-reducer';
 
 const middlewares = [logger];
 
-const store = createStore(rootReducer, applyMiddleware(...middlewares));
+export const store = createStore(rootReducer, applyMiddleware(...middlewares));
 
-export default store;
+export const persistor = persistStore(store);
+
+export default { store, persistor };
