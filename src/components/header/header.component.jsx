@@ -3,9 +3,14 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 // Using Connect for Redux, to send the user state
 import { connect } from 'react-redux';
+// Import CreateStructured selector from reselect to map state using memoization
+import { createStructuredSelector } from 'reselect';
 // Import the Auth (keep the state of the user login)
 import { auth } from '../../firebase/firebase.utils';
 import CartIcon from '../cart-icon/cart-icon.component';
+// The cart and user selectors
+import { selectCardHidden } from '../../redux/cart/cart.selectors';
+import { selectCurrentUser } from '../../redux/user/user.selectors';
 import CartDropdown from '../cart-dropdown/cart-dropdown.component';
 // We will use a special syntax in React for importing SVGs:
 import { ReactComponent as Logo } from '../../assets/icons/crown.svg'
@@ -38,13 +43,13 @@ const Header = ({ currentUser, hidden }) => (
     </div>
     { hidden ? null : <CartDropdown /> }
   </header>
-)
+);
 
 // must use this name as it is a redux codebase
-const mapStateToProps = ({user: { currentUser }, cart: { hidden }}) => ({
-  currentUser,
-  hidden
-})
+const mapStateToProps = createStructuredSelector({
+  currentUser: selectCurrentUser,
+  hidden: selectCardHidden
+});
 
 // Needs the function that allows us to access the state and the component
 export default connect(mapStateToProps)(Header);
