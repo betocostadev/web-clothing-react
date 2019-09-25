@@ -1,6 +1,7 @@
 import React from 'react';
 // Using to Link from React-Router to link the logo to the home
-import { Link } from 'react-router-dom';
+// Using LINK from header.styles.jsx
+// import { Link } from 'react-router-dom';
 // Using Connect for Redux, to send the user state
 import { connect } from 'react-redux';
 // Import CreateStructured selector from reselect to map state using memoization
@@ -15,34 +16,37 @@ import CartDropdown from '../cart-dropdown/cart-dropdown.component';
 // We will use a special syntax in React for importing SVGs:
 import { ReactComponent as Logo } from '../../assets/icons/crown.svg'
 
-import './header.styles.scss';
+// Using CSS in JS for this component
+import { HeaderContainer, LogoContainer, OptionsContainer, OptionLink, OptionDiv } from './header.styles';
+
+// import './header.styles.scss';
 // The Link will be converted to an 'a' element when rendered, style it in the app styles.
 const Header = ({ currentUser, hidden }) => (
-  <header className='header'>
-    <Link className='logo-container' to='/'>
+  <HeaderContainer>
+    <LogoContainer to='/'>
       <Logo className='logo' />
-    </Link>
-    <div className='options'>
-      <Link className='option' to='/shop'>
+    </LogoContainer>
+    <OptionsContainer>
+      <OptionLink to='/shop'>
         SHOP
-      </Link>
-      <Link className='option' to='/shop'>
+      </OptionLink>
+      <OptionLink to='/shop'>
         CONTACT
-      </Link>
+      </OptionLink>
       {
         currentUser ?
-        <div className='option' onClick={() => auth.signOut()}>
+        <OptionDiv onClick={() => auth.signOut()}>
           SIGN OUT
-        </div>
+        </OptionDiv>
         :
-        <Link className='option' to='/signin'>
+        <OptionLink to='/signin'>
           SIGN IN
-        </Link>
+        </OptionLink>
       }
       <CartIcon />
-    </div>
+    </OptionsContainer>
     { hidden ? null : <CartDropdown /> }
-  </header>
+  </HeaderContainer>
 );
 
 // must use this name as it is a redux codebase
