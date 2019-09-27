@@ -1,3 +1,7 @@
+// Attention!!
+// Just an example file, it contains the code used to copy the SHOPDATA to Firestore.
+// Now using the collection on Firestore, code for fetching the data inside pages/shop component.
+
 import React from 'react';
 import { Switch, Route, Redirect } from 'react-router-dom';
 import { connect } from 'react-redux';

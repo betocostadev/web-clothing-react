@@ -1,15 +1,22 @@
+// import SHOP_DATA from './shop.data';
 // Import shop data and get collections from there.
-// At least we are not using the Firebase DB to store the data.
-import SHOP_DATA from './shop.data';
+import ShopActionTypes from './shop.types';
+
+// Now setting the initial state to null since we will get it from firebase
 const INITIAL_STATE = {
-  collections: SHOP_DATA
-}
+  collections: null
+};
 
 const shopReducer = (state = INITIAL_STATE, action) => {
   switch (action.type) {
+    case ShopActionTypes.UPDATE_COLLECTIONS:
+      return {
+        ...state,
+        collections: action.payload
+      }
     default:
       return state;
   }
-}
+};
 
 export default shopReducer;

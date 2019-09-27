@@ -15,6 +15,8 @@ const config = {
   appId: "1:957647152799:web:133cd062aa5a786d1e64aa"
 };
 
+firebase.initializeApp(config);
+
 // Add new user
 export const createUserProfileDocument = async (userAuth, additionalData) => {
   if (!userAuth) return;
@@ -44,6 +46,7 @@ export const createUserProfileDocument = async (userAuth, additionalData) => {
 }
 
 // Passing the Shop Data to the Back-End (Firestore DB)
+// No using, used once to send the shop.data to Firestore.
 export const addCollectionAndDocuments =  async (collectionKey, objectsToAdd) => {
   const collectionRef = firestore.collection(collectionKey);
   // console.log(collectionRef);
@@ -61,7 +64,24 @@ export const addCollectionAndDocuments =  async (collectionKey, objectsToAdd) =>
   return await batch.commit();
 }
 
-firebase.initializeApp(config);
+// We will get an array from firestore, so we will convert it into an object:
+export const convertCollectionsSnapshotToMap = (collections) => {
+  const transformedCollection = collections.docs.map(doc => {
+    const { title, items } = doc.data();
+    // We will get our routeName using encoreURI
+    return {
+      routeName: encodeURI(title.toLowerCase()),
+      id: doc.id,
+      title,
+      items
+    }
+  });
+  return transformedCollection.reduce((acc, collection) => {
+    // Will return objects based on their title. Hats for the hats collection, etc.
+    acc[collection.title.toLowerCase()] = collection;
+    return acc;
+  }, {})
+};
 
 export const auth = firebase.auth();
 export const firestore = firebase.firestore();
