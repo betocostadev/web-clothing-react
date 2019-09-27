@@ -1,8 +1,12 @@
 import React from 'react';
 
-import './custom-button.styles.scss';
+// Using the CSS in JS styles:
+import { CustomButtonContainer } from './custom-button.styles';
+// Using the 'default' scss styles:
+// import './custom-button.styles.scss';
 
-const CustomButton = ({ children, isGoogleSignIn, inverted, ...otherProps }) => (
+// The below code for CustomButton is related to using the SCSS styled component.
+/* const CustomButton = ({ children, isGoogleSignIn, inverted, ...otherProps }) => (
   <button
     className={`
       ${inverted ? 'inverted' : ''} ${
@@ -10,6 +14,12 @@ const CustomButton = ({ children, isGoogleSignIn, inverted, ...otherProps }) => 
       } custom-button`} {...otherProps}>
     {children}
   </button>
-)
+) */
+
+const CustomButton = ({ children, ...props }) => (
+  <CustomButtonContainer {...props}>
+    {children}
+  </CustomButtonContainer>
+);
 
 export default CustomButton;
