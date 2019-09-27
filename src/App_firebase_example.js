@@ -12,13 +12,12 @@ import CheckoutPage from './pages/checkout/checkout.component';
 import Header from './components/header/header.component';
 // Use auth to setstate and be able to pass the 'logged' state to the components that need it
 // That's why we will convert the app to a class component
-import { auth, createUserProfileDocument } from './firebase/firebase.utils';
+import { auth, createUserProfileDocument, addCollectionAndDocuments } from './firebase/firebase.utils';
 
 import { setCurrentUser } from './redux/user/user.actions';
 import { selectCurrentUser } from './redux/user/user.selectors';
+import { selectCollectionsForPreview } from './redux/shop/shop.selectors';
 
-// We are using it inside the App component because:
-// The App component is mounted only once when the App starts, and that's when we want to create our data.
 
 // Notice that the Header component is placed outside of the Switch.
 // This makes the Header component to be rendered before the Route decides the destination
@@ -38,7 +37,7 @@ class App extends React.Component {
   // We need to get the info when the user logs in/out
   // We will create the user on the DB and also setState, to make sure React is aware
   componentDidMount() {
-    const {setCurrentUser} = this.props;
+    const { setCurrentUser, collectionsArray } = this.props;
 
     this.unsubscribeFromAuth = auth.onAuthStateChanged(async userAuth => {
       // this.setState({ currentUser: user });
@@ -47,13 +46,21 @@ class App extends React.Component {
         userRef.onSnapshot(snapShot => {
           // console.log(snapShot.data());
           setCurrentUser({
-              id: snapShot.id,
-              ...snapShot.data()
+            id: snapShot.id,
+            ...snapShot.data()
           });
-        // ), () => console.log(this.state))
+          // ), () => console.log(this.state))
         });
       }
       setCurrentUser(userAuth);
+      // We are using our Firebase function addCollectionAndDocuments inside the App component because:
+      // The App component is mounted only once when the App starts, and that's when we want to create our data.
+      // We are passing our collections array from shop.data. Attention:
+      // We will map to NOT pass the id and route,
+      addCollectionAndDocuments(
+        'collections',
+        collectionsArray.map(({title, items}) => ({title, items}))
+        );
     })
   }
 
@@ -83,7 +90,8 @@ class App extends React.Component {
 
 // Check if the user is signed in, if it is, forbid the login page.
 const mapStateToProps = createStructuredSelector({
-  currentUser: selectCurrentUser
+  currentUser: selectCurrentUser,
+  collectionsArray: selectCollectionsForPreview
 });
 
 // Dispatch current User

@@ -18,12 +18,13 @@ const config = {
 // Add new user
 export const createUserProfileDocument = async (userAuth, additionalData) => {
   if (!userAuth) return;
-
   const userRef = firestore.doc(`users/${userAuth.uid}`);
+  // const collectionRef = firestore.collection('users');
+  // console.log(collectionRef);
 
   const snapShot = await userRef.get();
-  // console.log(snapShot);
-  // console.log(firestore.doc('users/128fdashadu'));
+  // const collectionSnapShot = await collectionRef.get();
+  // console.log({ collection: collectionSnapShot.docs.map(doc => doc.data())});
 
   if(!snapShot.exists) {
     const { displayName, email } = userAuth;
@@ -40,6 +41,24 @@ export const createUserProfileDocument = async (userAuth, additionalData) => {
     }
   }
   return userRef;
+}
+
+// Passing the Shop Data to the Back-End (Firestore DB)
+export const addCollectionAndDocuments =  async (collectionKey, objectsToAdd) => {
+  const collectionRef = firestore.collection(collectionKey);
+  // console.log(collectionRef);
+
+  // Using firestore batch to avoid problems when saving the data.
+  // If something happens at the middle of the operation, everything fails.
+  const batch = firestore.batch();
+  objectsToAdd.forEach(obj => {
+    // Create new docs on this collection and generate an ID.
+    const newDocRef = collectionRef.doc();
+    batch.set(newDocRef, obj);
+  });
+
+  // batch.commit fires the batch request
+  return await batch.commit();
 }
 
 firebase.initializeApp(config);
