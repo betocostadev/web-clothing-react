@@ -12,7 +12,7 @@ import WithSpinner from '../../components/with-spinner/with-spinner.component';
 import CollectionsOverview from '../../components/collections-overview/collections-overview.component';
 import CollectionPage from '../collection/collection.component';
 
-// Use the wrapped component is data is still loading:
+// Use the wrapped component if the data is still loading:
 const CollectionsOverviewWithSpinner = WithSpinner(CollectionsOverview);
 const CollectionPageWithSpinner = WithSpinner(CollectionPage);
 
@@ -24,15 +24,33 @@ class ShopPage extends React.Component {
 
   unsubscribeFromSnapshot = null;
 
+  // Default way using Firestore - Having the advantage of observables
+  // componentDidMount() {
+  //   const { updateCollections } = this.props;
+  //   const collectionRef = firestore.collection('collections');
+
+  //   this.unsubscribeFromSnapshot = collectionRef.onSnapshot(async snapshot => {
+  //     const collectionsMap = convertCollectionsSnapshotToMap(snapshot);
+  //     updateCollections(collectionsMap);
+  //     this.setState({loading: false});
+  //   });
+  // }
+
+  // Using the Promise pattern
   componentDidMount() {
     const { updateCollections } = this.props;
     const collectionRef = firestore.collection('collections');
 
-    this.unsubscribeFromSnapshot = collectionRef.onSnapshot(async snapshot => {
+    collectionRef.get().then(snapshot => {
       const collectionsMap = convertCollectionsSnapshotToMap(snapshot);
       updateCollections(collectionsMap);
       this.setState({loading: false});
     });
+
+    /* See the example docs logged using fetch:
+    fetch('https://firestore.googleapis.com/v1/projects/web-clothing-db/databases/(default)/documents/collections')
+      .then(response => response.json())
+      .then(collections => console.log(collections)); */
   }
 
   // Before adding a Wrapped component and getting the data from firestore
