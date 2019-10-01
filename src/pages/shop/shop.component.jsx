@@ -1,10 +1,11 @@
 import React from 'react';
 import { Route } from 'react-router-dom';
+import { createStructuredSelector } from 'reselect';
 import { connect } from 'react-redux';
 
-import { firestore, convertCollectionsSnapshotToMap } from '../../firebase/firebase.utils';
-
-import { updateCollections } from '../../redux/shop/shop.actions';
+// Now using redux-thunk | new actions
+import { fetchCollectionsStartAsync } from '../../redux/shop/shop.actions';
+import { selectIsCollectionFetching, selectIsCollectionsLoaded } from '../../redux/shop/shop.selectors';
 
 // HOC - Loading Component
 import WithSpinner from '../../components/with-spinner/with-spinner.component';
@@ -17,63 +18,39 @@ const CollectionsOverviewWithSpinner = WithSpinner(CollectionsOverview);
 const CollectionPageWithSpinner = WithSpinner(CollectionPage);
 
 class ShopPage extends React.Component {
-  // Using a class, not it doesnt need a constructor and super.
-  state = {
-    loading: true
-  };
-
-  unsubscribeFromSnapshot = null;
-
-  // Default way using Firestore - Having the advantage of observables
-  // componentDidMount() {
-  //   const { updateCollections } = this.props;
-  //   const collectionRef = firestore.collection('collections');
-
-  //   this.unsubscribeFromSnapshot = collectionRef.onSnapshot(async snapshot => {
-  //     const collectionsMap = convertCollectionsSnapshotToMap(snapshot);
-  //     updateCollections(collectionsMap);
-  //     this.setState({loading: false});
-  //   });
-  // }
-
-  // Using the Promise pattern
   componentDidMount() {
-    const { updateCollections } = this.props;
-    const collectionRef = firestore.collection('collections');
-
-    collectionRef.get().then(snapshot => {
-      const collectionsMap = convertCollectionsSnapshotToMap(snapshot);
-      updateCollections(collectionsMap);
-      this.setState({loading: false});
-    });
-
-    /* See the example docs logged using fetch:
-    fetch('https://firestore.googleapis.com/v1/projects/web-clothing-db/databases/(default)/documents/collections')
-      .then(response => response.json())
-      .then(collections => console.log(collections)); */
+    const { fetchCollectionsStartAsync } = this.props;
+    fetchCollectionsStartAsync();
   }
 
-  // Before adding a Wrapped component and getting the data from firestore
-  // <Route exact path={`${match.path}`} component={CollectionsOverview} />
-  // <Route path={`${match.path}/:collectionId`} component={CollectionPage} />
+  // isLoading is inverted ! because we can receive the false value when loading.
   render() {
-    const { match } = this.props;
-    const { loading } = this.state;
+    const { match, isCollectionFetching, isCollectionsLoaded } = this.props;
     return (
       <section className='shop-page'>
         <Route exact
           path={`${match.path}`}
-          render={(props) => <CollectionsOverviewWithSpinner isLoading={loading} {...props} />} />
+          render={props => (
+            <CollectionsOverviewWithSpinner
+              isLoading={isCollectionFetching} {...props} />
+          )} />
         <Route path={`${match.path}/:collectionId`}
-          render={(props) => <CollectionPageWithSpinner isLoading={loading} {...props} />} />
+          render={props => (
+            <CollectionPageWithSpinner
+              isLoading={!isCollectionsLoaded} {...props} />
+          )} />
       </section>
     );
   }
 }
 
-const mapDispatchToProps = dispatch => ({
-  updateCollections: collectionsMap =>
-    dispatch(updateCollections(collectionsMap))
-})
+const mapStateToProps = createStructuredSelector({
+  isCollectionFetching: selectIsCollectionFetching,
+  isCollectionsLoaded: selectIsCollectionsLoaded
+});
 
-export default connect(null, mapDispatchToProps)(ShopPage);
+const mapDispatchToProps = dispatch => ({
+  fetchCollectionsStartAsync: () => dispatch(fetchCollectionsStartAsync())
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(ShopPage);

@@ -35,11 +35,26 @@ const googleSignInStyles = css`
   }
 `
 
+const collectionItemStyles = css`
+  width: 80%;
+  opacity: 0.7;
+  position: absolute;
+  top: 255px;
+
+  &:hover {
+    opacity: 1;
+  }
+
+`
+
 // Using a JS function to decide what styles to apply
 
 const getButtonStyles = props => {
   if (props.isGoogleSignIn) {
     return googleSignInStyles;
+  }
+  if(props.isCollectionItem) {
+    return collectionItemStyles;
   }
   return props.inverted ? invertedButtonStyles : buttonStyles;
 }
