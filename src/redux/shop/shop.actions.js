@@ -4,9 +4,8 @@ import ShopActionTypes from './shop.types';
   payload: collectionsMap
 }); */
 
-import { firestore, convertCollectionsSnapshotToMap } from '../../firebase/firebase.utils';
 
-// Now fetch collections, since we are using redux-thunk
+// Now using redux-saga, the logic is now on shop.sagas.js
 export const fetchCollectionsStart = () => ({
   type: ShopActionTypes.FETCH_COLLECTIONS_START
 });
@@ -20,18 +19,3 @@ export const fetchCollectionsFailure = errorMessage => ({
   type: ShopActionTypes.FETCH_COLLECTIONS_FAILURE,
   payload: errorMessage
 });
-
-export const fetchCollectionsStartAsync = () => {
-  return dispatch => {
-    // Code previously from shop.component
-    const collectionRef = firestore.collection('collections');
-    dispatch(fetchCollectionsStart());
-
-    collectionRef.get().then(snapshot => {
-      const collectionsMap = convertCollectionsSnapshotToMap(snapshot);
-      // updateCollections(collectionsMap);
-      dispatch(fetchCollectionsSuccess(collectionsMap));
-      // this.setState({loading: false});
-    }).catch(error => dispatch(fetchCollectionsFailure(error.message)))
-  }
-};
