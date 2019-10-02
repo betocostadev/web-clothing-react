@@ -5,6 +5,7 @@ const buttonStyles = css`
   background-color: black;
   color: white;
   border: 1px solid transparent;
+  line-height: 50px;
   &:hover {
     background-color: white;
     color: black;
@@ -13,6 +14,8 @@ const buttonStyles = css`
 `
 
 const invertedButtonStyles = css`
+  min-width: 165px;
+  width: auto;
   background-color: white;
   color: black;
   border: 1px solid black;
@@ -25,6 +28,9 @@ const invertedButtonStyles = css`
 `
 
 const googleSignInStyles = css`
+  min-width: 165px;
+  width: auto;
+  line-height: 50px;
   background-color: #4285f4;
   color: white;
   border: 1px solid transparent;
@@ -37,13 +43,17 @@ const googleSignInStyles = css`
 
 const collectionItemStyles = css`
   width: 80%;
-  opacity: 0.7;
+  opacity: 0.75;
   position: absolute;
   top: 255px;
 
   &:hover {
-    opacity: 1;
+    background-color: black;
+    color: white;
+    border: none;
+    opacity: 0.8;
   }
+
 
 `
 
@@ -61,11 +71,8 @@ const getButtonStyles = props => {
 
 // Function is called at the end of this component
 export const CustomButtonContainer = styled.button`
-  min-width: 165px;
-  width: auto;
   height: 50px;
   letter-spacing: 0.5px;
-  line-height: 50px;
   padding: 0 35px;
   font-size: 15px;
   text-transform: uppercase;
