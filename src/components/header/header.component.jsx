@@ -6,13 +6,14 @@ import React from 'react';
 import { connect } from 'react-redux';
 // Import CreateStructured selector from reselect to map state using memoization
 import { createStructuredSelector } from 'reselect';
-// Import the Auth (keep the state of the user login)
-import { auth } from '../../firebase/firebase.utils';
+// Not Using auth since we are using redux-sagas
+// import { auth } from '../../firebase/firebase.utils';
 import CartIcon from '../cart-icon/cart-icon.component';
 // The cart and user selectors
+import CartDropdown from '../cart-dropdown/cart-dropdown.component';
 import { selectCardHidden } from '../../redux/cart/cart.selectors';
 import { selectCurrentUser } from '../../redux/user/user.selectors';
-import CartDropdown from '../cart-dropdown/cart-dropdown.component';
+import { signOutStart } from '../../redux/user/user.actions';
 // We will use a special syntax in React for importing SVGs:
 import { ReactComponent as Logo } from '../../assets/icons/crown.svg'
 
@@ -21,7 +22,7 @@ import { HeaderContainer, LogoContainer, OptionsContainer, OptionLink, OptionDiv
 
 // import './header.styles.scss';
 // The Link will be converted to an 'a' element when rendered, style it in the app styles.
-const Header = ({ currentUser, hidden }) => (
+const Header = ({ currentUser, hidden, signOutStart }) => (
   <HeaderContainer>
     <LogoContainer to='/'>
       <Logo className='logo' />
@@ -35,7 +36,7 @@ const Header = ({ currentUser, hidden }) => (
       </OptionLink>
       {
         currentUser ?
-        <OptionDiv onClick={() => auth.signOut()}>
+        <OptionDiv onClick={signOutStart}>
           SIGN OUT
         </OptionDiv>
         :
@@ -55,5 +56,9 @@ const mapStateToProps = createStructuredSelector({
   hidden: selectCardHidden
 });
 
+const mapDispatchToProps = dispatch => ({
+  signOutStart: () => dispatch(signOutStart())
+});
+
 // Needs the function that allows us to access the state and the component
-export default connect(mapStateToProps)(Header);
+export default connect(mapStateToProps, mapDispatchToProps)(Header);

@@ -83,6 +83,17 @@ export const convertCollectionsSnapshotToMap = (collections) => {
   }, {})
 };
 
+// Function to 'mimick' a way to get the user, in case it wasn't firebase
+// If there is no userAuth, there will be no user, so we will get the promise as null
+export const getCurrentUser = () => {
+  return new Promise((resolve, reject) => {
+    const unsubscribe = auth.onAuthStateChanged(userAuth => {
+      unsubscribe();
+      resolve(userAuth);
+    }, reject);
+  })
+}
+
 export const auth = firebase.auth();
 export const firestore = firebase.firestore();
 

@@ -10,48 +10,24 @@ import SignInSignUp from './pages/signin-signup/signin-signup.component';
 import CheckoutPage from './pages/checkout/checkout.component';
 
 import Header from './components/header/header.component';
-// Use auth to setstate and be able to pass the 'logged' state to the components that need it
-// That's why we will convert the app to a class component
 
 import { selectCurrentUser } from './redux/user/user.selectors';
+import { checkUserSession } from './redux/user/user.actions';
 
 class App extends React.Component {
-  // No need of the constructor since we are controlling the state using setCurrentUser
-  /* constructor() {
-    super();
-
-    this.state = {
-      currentUser: null
-    }
-  } */
-
   // Close the subscription after the user have subscribed
   unsubscribeFromAuth = null;
   // We will create the user on the DB and also setState, to make sure React is aware
   // Handled by Redux sagas now
   componentDidMount() {
-
-    // this.unsubscribeFromAuth = auth.onAuthStateChanged(async userAuth => {
-    //   // this.setState({ currentUser: user });
-    //   if (userAuth) {
-    //     const userRef = await createUserProfileDocument(userAuth);
-    //     userRef.onSnapshot(snapShot => {
-    //       // console.log(snapShot.data());
-    //       setCurrentUser({
-    //           id: snapShot.id,
-    //           ...snapShot.data()
-    //       });
-    //     // ), () => console.log(this.state))
-    //     });
-    //   }
-    //   setCurrentUser(userAuth);
-    // })
+    const { checkUserSession } = this.props;
+    checkUserSession();
   }
 
   componentWillUnmount() {
-    this.unsubscribeFromAuth()
+    this.unsubscribeFromAuth();
   }
-  // Notice that the Header component is placed outside of the Switch.
+  // Notice that the Header component is placed outside of the Switch
   // This makes the Header component to be rendered before the Route decides the destination
   render() {
     return (
@@ -78,4 +54,8 @@ const mapStateToProps = createStructuredSelector({
   currentUser: selectCurrentUser
 });
 
-export default connect(mapStateToProps)(App);
+const mapDispatchToProps = dispatch => ({
+  checkUserSession: () => dispatch(checkUserSession())
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(App);

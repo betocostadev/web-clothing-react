@@ -4,25 +4,25 @@
 // call: is the effect inside the generator function that invokes the method
 // put: put is used to dispatch. It is the saga effect for creating actions
 // import { takeEvery, call, put } from 'redux-saga/effects'
-import { takeLatest, call, put } from 'redux-saga/effects'
+import { takeLatest, all, call, put } from 'redux-saga/effects'
 
-import { firestore, convertCollectionsSnapshotToMap } from '../../firebase/firebase.utils';
+import { firestore, convertCollectionsSnapshotToMap } from '../../firebase/firebase.utils'
 
 import {
   fetchCollectionsSuccess,
   fetchCollectionsFailure
-} from './shop.actions';
+} from './shop.actions'
 
 import ShopActionTypes from './shop.types'
 
 export function* fetchCollectionsAsync() {
   // yield console.log('Fired!')
   try {
-    const collectionRef = firestore.collection('collections');
-    const snapshot = yield collectionRef.get();
+    const collectionRef = firestore.collection('collections')
+    const snapshot = yield collectionRef.get()
     // call will call convert... with the value we get from snapshot
-    const collectionsMap = yield call(convertCollectionsSnapshotToMap, snapshot);
-    yield put(fetchCollectionsSuccess(collectionsMap));
+    const collectionsMap = yield call(convertCollectionsSnapshotToMap, snapshot)
+    yield put(fetchCollectionsSuccess(collectionsMap))
   } catch (error) {
     yield put(fetchCollectionsFailure(error.message))
   }
@@ -33,4 +33,8 @@ export function* fetchCollectionsStart() {
     ShopActionTypes.FETCH_COLLECTIONS_START,
     fetchCollectionsAsync
   )
+}
+
+export function* shopSagas() {
+  yield all([call(fetchCollectionsStart)])
 }
