@@ -25,7 +25,7 @@ import { HeaderContainer, LogoContainer, OptionsContainer, OptionLink, OptionDiv
 const Header = ({ currentUser, hidden, signOutStart }) => (
   <HeaderContainer>
     <LogoContainer to='/'>
-      <Logo className='logo' />
+      <Logo className='logo' title='Web-Clothing' />
     </LogoContainer>
     <OptionsContainer>
       <OptionLink to='/shop'>

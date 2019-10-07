@@ -58,7 +58,7 @@ export function* signOut() {
   }
 }
 
-export function* signUp({payload: { email, password, displayName }}) {
+export function* signUp({ payload: { email, password, displayName }}) {
   try {
     const { user } = yield auth.createUserWithEmailAndPassword(email, password)
     yield put(signUpSuccess({ user, additionalData: { displayName } }))
@@ -67,7 +67,7 @@ export function* signUp({payload: { email, password, displayName }}) {
   }
 }
 
-export function* signInAfterSignUp({user, additionalData}) {
+export function* signInAfterSignUp({ payload: {user, additionalData} }) {
   yield getSnapshotFromUserAuth(user, additionalData)
 }
 

@@ -3,22 +3,24 @@ import styled, { css } from 'styled-components';
 import { Link } from 'react-router-dom';
 
 const OptionContainerStyles = css`
+  font-size: 1.1rem;
   padding: 10px 15px;
   cursor: pointer;
 `
 
 export const HeaderContainer = styled.header`
   height: 70px;
-  width: 100%;
+  width: 95%;
   display: flex;
   justify-content: space-between;
-  margin-bottom: 25px;
+  margin-bottom: 20px;
 `
 
 export const LogoContainer = styled(Link)`
   height: 100%;
   width: 70px;
-  padding: 25px;
+  padding: 20px;
+  margin: 0 0 0 2rem;
 `
 export const OptionsContainer = styled.div`
   width: 50%;
