@@ -15,18 +15,37 @@
 
     .header-block {
       text-transform: capitalize;
-      width: 23%;
+      width: 20%;
 
       &:last-child {
         width: 8%;
+        @media screen and (max-width: 800px) {
+          width: 10%;
+        }
       }
     }
+
+    @media screen and (max-width: 800px) {
+      width: 100%;
+      padding: 5px 0;
+      margin: 0;
+    }
+  }
+
+  @media screen and (max-width: 800px) {
+      width: 95%;
+      padding: 0;
+      margin: 0;
   }
 
   .total {
     margin-top: 30px;
     margin-left: auto;
     font-size: 36px;
+    @media screen and (max-width: 800px) {
+      margin-top: 20px;
+      font-size: 28px;
+    }
   }
 
   .test-warning {
@@ -34,6 +53,10 @@
     margin-top: 0.75rem;
     font-size: 1.2rem;
     color: red;
+    @media screen and (max-width: 800px) {
+      margin-top: 0.4rem;
+      font-size: 1rem;
+    }
   }
 
   button {

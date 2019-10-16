@@ -21,6 +21,12 @@
     opacity: 0.7;
     position: absolute;
     top: 255px;
+
+    @media screen and (max-width: 800px) {
+      width: 90%;
+      top: 240px;
+      opacity: 0.65;
+    }
   }
 
   &:hover {
@@ -29,6 +35,20 @@
     }
     .custom-button {
       opacity: 0.9;
+    }
+  }
+
+  @media screen and (max-width: 800px) {
+    width: 40vw;
+    margin: 0.1rem;
+
+    &:hover {
+      .image {
+        opacity: unset;
+      }
+      .custom-button {
+        opacity: unset;
+      }
     }
   }
 

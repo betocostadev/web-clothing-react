@@ -54,6 +54,13 @@ const collectionItemStyles = css`
     opacity: 0.8;
   }
 
+  @media screen and (max-width: 800px) {
+    min-width: unset;
+    width: 90%;
+    padding: 0 10px;
+    border: none;
+  }
+
 
 `
 
