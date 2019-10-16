@@ -11,10 +11,13 @@ export const GlobalStyle = createGlobalStyle`
 
   body {
     font-family: var(--baseFont);
-    padding: 20px 60px;
+    padding: 20px;
 
     @media screen and (max-width: 800px) {
       padding: 10px;
+    }
+    @media screen and (min-width: 1200px) {
+      padding: 20px 40px;
     }
   }
 

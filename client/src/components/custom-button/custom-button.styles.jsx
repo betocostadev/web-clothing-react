@@ -72,7 +72,10 @@ const collectionItemStyles = css`
   }
 
   @media screen and (max-width: 800px) {
+    height: 40px;
+    line-height: 40px;
     min-width: unset;
+    top: 215px;
     width: 90%;
     padding: 0 10px;
     border: none;

@@ -21,12 +21,6 @@
     opacity: 0.7;
     position: absolute;
     top: 255px;
-
-    @media screen and (max-width: 800px) {
-      width: 90%;
-      top: 240px;
-      opacity: 0.65;
-    }
   }
 
   &:hover {
@@ -39,8 +33,9 @@
   }
 
   @media screen and (max-width: 800px) {
-    width: 40vw;
+    width: 43vw;
     margin: 0.1rem;
+    height: 300px;
 
     &:hover {
       .image {
@@ -60,12 +55,20 @@
     font-size: 1.1rem;
 
     .name {
-      width: 90%;
+      width: 85%;
       margin-bottom: 15px;
     }
 
     .price {
-      width: 10%;
+      width: 15%;
+      &::before {
+        content: '$';
+      }
+    }
+
+    @media screen and (max-width: 800px) {
+      height: 10%;
+      font-size: 1rem;
     }
   }
 }
