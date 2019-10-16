@@ -3,4 +3,10 @@
   display: flex;
   justify-content: space-around;
   margin: 1.5rem auto;
+
+  @media screen and (max-width: 800px){
+    flex-direction: column;
+    width: 75%;
+    margin: 0;
+  }
 }

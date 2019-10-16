@@ -6,10 +6,19 @@ const buttonStyles = css`
   color: white;
   border: 1px solid transparent;
   line-height: 50px;
+
   &:hover {
     background-color: white;
     color: black;
     border: 1px solid black;
+  }
+
+  @media screen and (max-width: 800px) {
+    min-width: 100px;
+    margin: 0 0.1rem;
+    padding: 0 10px;
+    border: none;
+    line-height: 16px;
   }
 `
 
@@ -39,6 +48,13 @@ const googleSignInStyles = css`
     background-color: #357ae8;
     border: 1px solid transparent;
   }
+
+  @media screen and (max-width: 800px) {
+    width: 100%;
+    margin: 0 0.1rem;
+    padding: 0 10px;
+    border: none;
+  }
 `
 
 const collectionItemStyles = css`
@@ -46,6 +62,7 @@ const collectionItemStyles = css`
   opacity: 0.75;
   position: absolute;
   top: 255px;
+  border: none;
 
   &:hover {
     background-color: black;
