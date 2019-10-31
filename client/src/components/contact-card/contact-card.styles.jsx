@@ -64,7 +64,7 @@ export const Card = styled.div`
   position: relative;
   background: #6b6b6b;
   width: 100%;
-  height: inherit;
+  height: 75vh;
   border-radius: 6px;
   padding: 2rem;
   color: #aaa;
@@ -90,14 +90,15 @@ export const CardContent = styled.div`
 
   h2 {
     color: white;
-    margin-top: 0;
+    margin: 0 0 0.5rem 0;
     font-weight: 800;
     letter-spacing: 0.01em;
   }
   p {
     color: #f9fcfc;
-    font-size: 1.15rem;
+    font-size: 1.1rem;
     letter-spacing: 1px;
+    margin: 0 0 1rem 0;
   }
 `
 export const CardImageContainer = styled.div`
