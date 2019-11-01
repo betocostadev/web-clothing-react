@@ -58,6 +58,20 @@ export const Container = styled.div`
   justify-content: center;
   height: 78vh;
   background: #6b6b6b;
+
+  @media only screen and (min-width: 400px) {
+    margin: 1rem 1rem 2rem 1rem;
+  }
+
+  @media only screen and (min-width: 501px) {
+    flex: 0.8;
+  }
+
+  @media only screen and (min-width: 900px) {
+    height: 65vh;
+    margin: 2rem;
+    flex: 0.5;
+  }
 `
 
 export const Card = styled.div`
@@ -66,7 +80,7 @@ export const Card = styled.div`
   width: 100%;
   height: 78vh;
   border-radius: 6px;
-  padding: 0.75rem;
+  padding: 2rem 1rem 1rem 1rem;
   color: #aaa;
   box-shadow: 0 0.25rem .25rem rgba(0,0,0,0.2), 0 0 1rem rgba(0,0,0,0.2);
   overflow: hidden;
@@ -75,6 +89,10 @@ export const Card = styled.div`
     position: absolute;
     left: 0;
     top: 110px;
+  }
+
+  @media only screen and (min-width: 900px) {
+    height: 65vh;
   }
 `
 
@@ -96,9 +114,18 @@ export const CardContent = styled.div`
   }
   p {
     color: #f9fcfc;
-    font-size: 1rem;
+    font-size: 1.1rem;
     letter-spacing: 1px;
     margin: 0 0 0.5rem 0;
+  }
+
+  @media only screen and (min-width: 501px) {
+    margin-top: 1rem;
+  }
+  @media only screen and (min-width: 1200px) {
+    p {
+      font-size: 1.3rem;
+    }
   }
 `
 export const CardImageContainer = styled.div`
