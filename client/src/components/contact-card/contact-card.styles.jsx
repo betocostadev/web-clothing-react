@@ -50,13 +50,13 @@ const ImageFadeIn = keyframes`
 // STYLES
 export const Container = styled.div`
   max-width: 100vw;
-  margin: 0.25rem;
+  margin: 0.2rem;
   border-radius: 10px;
-  line-height: 1.5rem;
+  line-height: 1.3rem;
   display: flex;
   align-items: center;
   justify-content: center;
-  height: 75vh;
+  height: 78vh;
   background: #6b6b6b;
 `
 
@@ -64,9 +64,9 @@ export const Card = styled.div`
   position: relative;
   background: #6b6b6b;
   width: 100%;
-  height: 75vh;
+  height: 78vh;
   border-radius: 6px;
-  padding: 2rem;
+  padding: 0.75rem;
   color: #aaa;
   box-shadow: 0 0.25rem .25rem rgba(0,0,0,0.2), 0 0 1rem rgba(0,0,0,0.2);
   overflow: hidden;
@@ -80,13 +80,13 @@ export const Card = styled.div`
 
 export const Path = styled.path`
   opacity: 0;
-  animation: ${LineFadeIn} 0.8s 0.8s forwards ease-in;
+  animation: ${LineFadeIn} 0.7s 0.7s forwards ease-in;
 `
 
 export const CardContent = styled.div`
-  margin-top: 0.5rem;
+  margin-top: 0.25rem;
   opacity: 0;
-  animation: ${ContentFadeIn} 0.8s 1.6s forwards;
+  animation: ${ContentFadeIn} 0.7s 1.4s forwards;
 
   h2 {
     color: white;
@@ -96,9 +96,9 @@ export const CardContent = styled.div`
   }
   p {
     color: #f9fcfc;
-    font-size: 1.1rem;
+    font-size: 1rem;
     letter-spacing: 1px;
-    margin: 0 0 1rem 0;
+    margin: 0 0 0.5rem 0;
   }
 `
 export const CardImageContainer = styled.div`
@@ -106,7 +106,7 @@ export const CardImageContainer = styled.div`
 
   img {
     opacity: 0;
-    animation: ${ImageFadeIn} 0.8s 1.4s forwards;
+    animation: ${ImageFadeIn} 0.7s 1.2s forwards;
   }
 `
 
